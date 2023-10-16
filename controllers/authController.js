@@ -70,7 +70,6 @@ import  JWT from "jsonwebtoken";
                 messaage:'Email is not registered'
             })
         }
-        
         const match=await comparePassword(password,user.password);
         if(!match){
             return res.status(200).send({
@@ -100,4 +99,19 @@ import  JWT from "jsonwebtoken";
         })
     }
 
+ }
+
+ export const testController=async(req,res)=>{
+    try {
+   return res.status(200).send({
+    success:true,
+    messaage:"Congratulation! this is trusted Admin WAO"
+   })
+    } catch (error) {
+        console.log(error);
+        res.status(401).send({
+            success:false,
+            messaage:'Invalid Token'
+        })
+    }
  }
