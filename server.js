@@ -16,7 +16,7 @@ connectDB();
 
 //middleware
 app.use(express.json);
-app.use(morgan('dev'));
+// app.use(morgan('dev'));
 
 //rest api
 app.get('/',(req,res)=>{
@@ -26,5 +26,5 @@ res.send('<h1>Welcome to Ecommerce App</h1>');
 const port=process.env.port || 8080;
 //run listen
 app.listen(port,()=>{
-    console.log(`Server running on ${process.env.mode} mode on http://localhost:${port}`);
+    console.log(`Server running on ${process.env.mode} mode on http://localhost:${port}`.bg);
 })
