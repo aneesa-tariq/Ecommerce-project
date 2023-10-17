@@ -1,9 +1,16 @@
 import React from 'react'
-
-function Layout() {
+import Header from './Header'
+import Footer from './Footer'
+function Layout(props) {
   return (
     <div>
-      <h1>Layout comp</h1>
+      {/* Header */}
+      <Header/>
+      <main style={{minHeight:'80vh'}}>
+      {props.children}
+      </main>
+      {/* Footer */}
+      <Footer/>
     </div>
   )
 }

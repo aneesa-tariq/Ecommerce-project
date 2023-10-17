@@ -2,8 +2,8 @@ import React from 'react'
 
 function Footer() {
   return (
-    <div>
-     ?<h1>Footer comp</h1> 
+    <div className='bg-dark text-light p-3'>
+     <h4 className='text-center'>All Right Reserved &copy; Techinfoyt </h4> 
     </div>
   )
 }
