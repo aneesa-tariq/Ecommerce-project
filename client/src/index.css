@@ -1,0 +1,14 @@
+/* Font family poppinss */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
+/* Another font family,Alumni */
+@import url('https://fonts.googleapis.com/css2?family=Alumni+Sans+Collegiate+One&family=Poppins:wght@300;400&display=swap');
+/* Play-fair display font for heading */
+@import url('https://fonts.googleapis.com/css2?family=Alumni+Sans+Collegiate+One&family=Playfair+Display:wght@700&family=Poppins:wght@300;400&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+h1{
+  font-family: 'Playfair Display', serif;
+}
