@@ -1,13 +1,14 @@
-body {
+/* Font family poppinss */
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap'); */
+/* Another font family,Alumni */
+@import url('https://fonts.googleapis.com/css2?family=Alumni+Sans+Collegiate+One&family=Poppins:wght@300;400&display=swap');
+/* Play-fair display font for heading */
+@import url('https://fonts.googleapis.com/css2?family=Alumni+Sans+Collegiate+One&family=Playfair+Display:wght@700&family=Poppins:wght@300;400&display=swap');
+*{
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  box-sizing: border-box;
 }
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
+/* h1{
+  font-family: 'Playfair Display', serif;
+} */
