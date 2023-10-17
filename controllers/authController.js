@@ -33,7 +33,6 @@ import  JWT from "jsonwebtoken";
 
         //registerr User
         const hashedPassword=await hashPassword(password);
-
         //save user
         const user=await new userModel({name,email,password:hashedPassword,phone,address}).save();
         res.status(201).send({

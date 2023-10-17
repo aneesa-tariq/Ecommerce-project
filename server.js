@@ -9,7 +9,11 @@ mongoose.set('strictQuery', true);
 //configure env,my .env folder is in root folder so we do not need to add path
 dotenv.config();
 //database config
-connectDB(); 
+connectDB().then(() => {
+    // Your application logic here, which relies on the database connection
+  }).catch((error) => {
+    console.error('Failed to connect to the database:', error);
+  });
 //rest object
 const app = express();
 //middleware
