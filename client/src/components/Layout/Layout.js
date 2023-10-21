@@ -1,18 +1,32 @@
 import React from 'react'
 import Header from './Header'
 import Footer from './Footer'
-function Layout(props) {
+import { Helmet } from 'react-helmet'
+function Layout({ children, title, description, keywords, author }) {
   return (
     <div>
+      <Helmet>
+          <meta charSet="UTF-8" />
+          <meta name="description" content={description} />
+          <meta name="keywords" content={keywords}/>
+          <meta name="author" content={author} />
+          <title>{title}</title>
+      </Helmet>
       {/* Header */}
-      <Header/>
-      <main style={{minHeight:'80vh'}}>
-      {props.children}
+      <Header />
+      <main style={{ minHeight: '62vh' }}>
+        {children}
       </main>
       {/* Footer */}
-      <Footer/>
+      <Footer />
     </div>
   )
+}
+Layout.defaultProps={
+  title:'Ecomerce App',
+description:'Mern Stack project',
+keywords:'mern,react,node,mongodb',
+author:'Aneesa Tariq'
 }
 
 export default Layout
