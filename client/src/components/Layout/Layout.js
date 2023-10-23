@@ -1,7 +1,10 @@
-import React from 'react'
-import Header from './Header'
-import Footer from './Footer'
-import { Helmet } from 'react-helmet'
+import React from 'react';
+import Header from './Header';
+import Footer from './Footer';
+import { Helmet } from 'react-helmet';
+import {Toaster}  from 'react-hot-toast';
+import 'react-toastify/dist/ReactToastify.css';
+
 function Layout({ children, title, description, keywords, author }) {
   return (
     <div>
@@ -16,8 +19,10 @@ function Layout({ children, title, description, keywords, author }) {
       <Header />
       <main style={{ minHeight: '62vh' }}>
         {children}
+        <Toaster/>
       </main>
       {/* Footer */}
+     
       <Footer />
     </div>
   )

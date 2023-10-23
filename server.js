@@ -5,6 +5,7 @@ import morgan from "morgan";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoute.js";
 import mongoose from "mongoose";
+import cors from "cors";
 mongoose.set('strictQuery', true);
 //configure env,my .env folder is in root folder so we do not need to add path
 dotenv.config();
@@ -19,6 +20,7 @@ const app = express();
 //middleware
 app.use(express.json());
 app.use(morgan('dev'));
+app.use(cors());
 //routes
 app.use("/api/v1/auth", authRoutes);
 //rest api
@@ -26,7 +28,7 @@ app.get('/',(req,res)=>{
 res.send("<h1>Welcome to Ecommerce App</h1>");
 })
 //port
-const PORT=process.env.port || 8080;
+const PORT=process.env.port || 3000;
 //run listen
 app.listen(PORT,()=>{
     console.log(`Server running on ${process.env.mode} mode on http://localhost:${PORT}`.bgBlue.white);

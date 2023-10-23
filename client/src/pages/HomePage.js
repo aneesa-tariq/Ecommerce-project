@@ -5,7 +5,7 @@ const HomePage = () => {
   return (
 
     <Layout title={"HomePage - Ecommerce App"}>
-        <h1 style={{margin:'100px'}}>Home Page</h1>
+        <h1 style={{marginTop:'95px'}}>Home Page</h1>
     </Layout>
   )
 }
