@@ -3,23 +3,30 @@ import Layout from "./../../components/Layout/Layout";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { useAuth } from "../../context/auth";
 //import "../../styles/AuthStyles.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+const [auth, setAuth] = useAuth();
   const navigate = useNavigate();
   // form function
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("/api/v1/auth/login", {
-        email,
-        password,
-      });
-      if ( res.data.success) {
-        toast.success(res.data.message);
-        navigate("/");
+      const res = await axios.post(`${process.env.REACT_APP_API}/api/v1/auth/login`,{email,password});
+      if ( res && res.data.success) {
+          toast.success(res.data && res.data.message);
+          setAuth({
+            ...auth,
+            user:res.data.user,
+            token:res.data.token
+          })
+          localStorage.setItem('auth',JSON.stringify(res.data));
+            setTimeout(() => {
+                 navigate("/");
+            }, 800);
       } else {
         toast.error(res.data.message);
       }
@@ -30,10 +37,9 @@ const Login = () => {
   };
   return (
     <Layout title="Register - Ecommer App">
-      <div className="form-container ">
+      <div className="form-container" style={{ margin: '30px' }}>
         <form onSubmit={handleSubmit}>
           <h4 className="title">LOGIN FORM</h4>
-
           <div className="mb-3">
             <input
               type="email"
