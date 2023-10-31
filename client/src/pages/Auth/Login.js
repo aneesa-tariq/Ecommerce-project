@@ -15,7 +15,7 @@ const [auth, setAuth] = useAuth();
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${process.env.REACT_APP_API}/api/v1/auth/login`,{email,password});
+      const res = await axios.post("/api/v1/auth/login",{email,password});
       if ( res && res.data.success) {
           toast.success(res.data && res.data.message);
           setAuth({
@@ -36,7 +36,7 @@ const [auth, setAuth] = useAuth();
     }
   };
   return (
-    <Layout title="Register - Ecommer App">
+    <Layout title="Register - Ecommerce App">
       <div className="form-container" style={{ margin: '30px' }}>
         <form onSubmit={handleSubmit}>
           <h4 className="title">LOGIN FORM</h4>
@@ -61,6 +61,11 @@ const [auth, setAuth] = useAuth();
               placeholder="Enter Your Password"
               required
             />
+          </div>
+          <div className="mb-3 mt-3">
+          <button type="button" className="btn btn-secondary" onClick={()=>{navigate('/forgot-password')}}>
+            Forgot Password
+          </button>
           </div>
           <button type="submit" className="btn btn-primary">
             LOGIN
