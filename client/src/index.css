@@ -119,6 +119,7 @@ form{
   font-weight: bold;
   
 }
-main{
-  
+.product-link{
+  text-decoration: none !important;
+  color: black !important;
 }
