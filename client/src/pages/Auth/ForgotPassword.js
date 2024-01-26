@@ -30,7 +30,7 @@ const ForgotPassword = () => {
     return (
         <Layout title="ForgotPassword - Ecommerce App">
             <div className="form-container" style={{ margin: '30px' }}>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className="form1">
                     <h4 className="title">RESET PASSWORD</h4>
                     <div className="mb-3">
                         <input

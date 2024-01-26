@@ -35,5 +35,5 @@ res.send("<h1>Welcome to Ecommerce App</h1>");
 const PORT=process.env.port || 3000;
 //run listen
 app.listen(PORT,()=>{
-    console.log(`Server running on ${process.env.mode} mode on http://localhost:${PORT}`.bgBlue.white);
+    console.log(`Server running on ${process.env.DEV_MODE} mode on http://localhost:${PORT}`.bgBlue.white);
 })

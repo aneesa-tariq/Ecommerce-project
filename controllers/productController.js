@@ -1,6 +1,22 @@
 import slugify from "slugify";
 import productModel from "../models/productModel.js";
-import fs from 'fs';
+import categoryModel from "../models/categoryModel.js";
+import orderModel from "../models/orderModel.js";
+import fs from "fs";
+import braintree from "braintree";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+//payment gateway
+//payment gateway
+var gateway = new braintree.BraintreeGateway({
+    environment: braintree.Environment.Sandbox,
+    merchantId: "3p88x8kbrfsfvvnc",
+    publicKey: "6c2ts62v5frc9gmv",
+    privateKey:"7b12d24399a3e86f3d7d6af3e9fce1ec",
+  });
+
 
 //create product controller
 export const createProductController = async (req, res) => {
@@ -68,7 +84,7 @@ export const getProductController = async (req, res) => {
     }
 }
 
-//get single prduct controller
+//get single product controller
 export const singleProductController = async (req, res) => {
     try {
         const product = await productModel.findOne({ slug: req.params.slug }).select("-photo");
@@ -176,3 +192,179 @@ export const updateProductController = async (req, res) => {
         });
     }
 };
+
+//filter Controller
+export const productFiltersController = async (req, res) => {
+    try {
+        const { checked, radio } = req.body;
+        let args = {};
+        if (checked.length > 0) args.category = checked;
+        if (radio.length) args.price = { $gte: radio[0], $lte: radio[1] };
+        const products = await productModel.find(args);
+        res.status(200).send({
+            success: true,
+            products,
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(400).send({
+            success: false,
+            message: "Error while Filtering Products",
+            error,
+        })
+    }
+}
+
+// product count controller
+export const productCountController = async (req, res) => {
+    try {
+        const total = await productModel.find({}).estimatedDocumentCount();
+        res.status(200).send({
+            success: true,
+            total,
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(400).send({
+            success: false,
+            message: "Error in  Product Count",
+            error,
+        })
+    }
+}
+
+//product list controller
+export const productListController = async (req, res) => {
+    try {
+        const perPage = 3;
+        const page = req.params.page ? req.params.page : 1;
+        const products = await productModel.find({}).select("-photo").skip((page - 1) * perPage).limit(perPage).sort({ createdAt: -1 });
+        res.status(200).send({
+            success: true,
+            products,
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(400).send({
+            success: false,
+            message: "Error in per page List",
+            error,
+        })
+    }
+}
+
+//search product controller
+export const searchProductController = async (req, res) => {
+    try {
+        const { keyword } = req.params;
+        const result = await productModel.find({
+            $or: [
+                { name: { $regex: keyword, $options: "i" } },
+                { description: { $regex: keyword, $options: "i" } }
+            ]
+        }).select("-photo");
+        res.json(result);
+    } catch (error) {
+        console.log(error);
+        res.status(400).send({
+            success: false,
+            message: "Error in search product api",
+            error,
+        })
+    }
+}
+
+//similar poduct controller function
+export const relatedProductController = async (req, res) => {
+    try {
+        const { pid, cid } = req.params;
+        const products = await productModel.find({
+            category: cid,
+            _id: { $ne: pid }
+        }).select("-photo").limit(3).populate("category");
+        res.status(200).send({
+            success: true,
+            products,
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(400).send({
+            success: false,
+            message: "Error while getting related  product",
+            error,
+        })
+    }
+
+}
+
+// get prdocyst by catgory
+export const productCategoryController = async (req, res) => {
+    try {
+        const category = await categoryModel.findOne({ slug: req.params.slug });
+        const products = await productModel.find({ category }).populate("category");
+        res.status(200).send({
+            success: true,
+            category,
+            products,
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(400).send({
+            success: false,
+            error,
+            message: "Error While Getting products",
+        });
+    }
+};
+
+//payment gateway api
+//token
+export const braintreeTokenController = async (req, res) => {
+    try {
+        gateway.clientToken.generate({}, function (err, response) {
+            if (err) {
+                res.status(500).send(err);
+            } else {
+                res.send(response);
+            }
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+//braintreePaymentController
+//payment
+export const braintreePaymentController = async (req, res) => {
+    try {
+        const { cart, nonce } = req.body;
+        let total = 0;
+        cart.map((i) => {
+            total += i.price
+        });
+        let newTransaction=gateway.transaction.sale({
+            amount:total,
+            paymentMethodNonce:nonce,
+            options:{
+                submitForSettlement:true
+            }
+        },
+        function(error,result){
+            if(result){
+                const order= new orderModel({
+                    products:cart,
+                    payment:result,
+                    buyer:req.user._id
+                }).save();
+                res.json({ok:true});
+            }else{
+                res.status(500).send(error);
+            }
+        }
+        )
+    } catch (error) {
+        console.log(error);
+    }
+}
+

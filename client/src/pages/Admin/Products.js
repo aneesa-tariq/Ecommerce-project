@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 const Products = () => {
   const [products, setProducts] = useState([]);
 
-  //getall products
+  //get all products
   const getAllProducts = async () => {
     try {
       const { data } = await axios.get("/api/v1/product/get-product");
@@ -23,7 +23,7 @@ const Products = () => {
     getAllProducts();
   }, []);
   return (
-    <Layout>
+    <Layout title={"Dashboard - All Products"}>
       <div className="row">
         <div className="col-md-3">
           <AdminMenu />
