@@ -8,8 +8,10 @@ import categoryRoutes from "./routes/categoryRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import mongoose from "mongoose";
 import cors from "cors";
-import {fileURLToPath} from 'url';
+import {fileURLToPath,path} from 'url';
 mongoose.set('strictQuery', true);
+
+
 //configure env,my .env folder is in root folder so we do not need to add path
 dotenv.config();
 //database config
